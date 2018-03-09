@@ -1,37 +1,30 @@
 # flatcar-packer-qemu
-Packer QEMU image builder for Flatcar Linux
 
-A basic Packer template, Makefile and cloud config file to get started building QEMU images for [Flatcar Linux](https://flatcar-linux.org/).
+A basic Packer template, Makefile and ignition config file to build QEMU images and a Vagrant box for [Flatcar Linux](https://flatcar-linux.org/).
 
 # Installation
+Verify that you have [Packer](https://www.packer.io/intro/getting-started/install.html) installed.
 
 ```
-$ git clone https://github.com/flatcar-linux/flatcar-packer-qemu.git .
-$ cd flatcar-packer-qemu
-$ cp flatcar-linux-config.yml.example flatcar-linux-config.yml
+$ packer -v
 ```
 
-### Makefile variables
-
-```make
-PACKER_CMD ?= packer
-RELEASE ?= alpha
-DIGEST_URL ?= https://$(RELEASE).release.core-os.net/amd64-usr/current/coreos_production_iso_image.iso.DIGESTS
-CONFIG ?= flatcar-linux-config.yml
-DISK_SIZE ?= 40000
-MEMORY ?= 2048M
-BOOT_WAIT ?= 45s
+Verify that you have [ct](https://github.com/coreos/container-linux-config-transpiler) installed, or use the `ct` target to install it to `/usr/local/bin` for you:
+```
+$ sudo make ct
 ```
 
-### Basic example using defaults
+For all options to customize the image properties, see the [Makefile](Makefile) variables.
+
+### Basic example using defaults (alpha release)
 
 ```
 $ make flatcar-linux
 ```
 
-### Building the alpha release
+### Building the stable release
 ```
-$ make flatcar-linux RELEASE=alpha
+$ make flatcar-linux RELEASE=stable VERSION=1632.3.0
 ```
 
 ### Other make targets
@@ -48,7 +41,7 @@ Delete the packer cache (making packer download the latest iso image on next bui
 $ make cache-clean
 ```
 
-### Run vagrant with libvirt provider
+### Running the Vagrant box using libvirt as provider
 
 ```
 $ vagrant up --provider=libvirt
