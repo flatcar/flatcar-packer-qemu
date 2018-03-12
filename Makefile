@@ -5,6 +5,9 @@ CONFIG ?= flatcar-linux-config.yml
 DISK_SIZE ?= 40000
 MEMORY ?= 2048M
 BOOT_WAIT ?= 45s
+CT_DOWNLOAD_URL ?= https://github.com/coreos/container-linux-config-transpiler/releases/download
+CT_VER ?= v0.7.0
+ARCH ?= $(shell uname -m)
 
 flatcar-linux: builds/flatcar-linux-$(RELEASE).qcow2
 
@@ -31,7 +34,7 @@ cache-clean:
 ct: /usr/local/bin/ct
 
 /usr/local/bin/ct:
-	wget -O /usr/local/bin/ct https://github.com$(shell curl -s -L https://github.com/flatcar/flatcar-linux-config-transpiler/releases/latest | grep -m 1 -o "/flatcar/flatcar-linux-config-transpiler/releases/download/.*unknown-linux-gnu")
+	wget $(CT_DOWNLOAD_URL)/$(CT_VER)/ct-$(CT_VER)-$(ARCH)-unknown-linux-gnu -O /usr/local/bin/ct
 	chmod +x /usr/local/bin/ct
 
 ct-update: ct-clean ct
@@ -39,4 +42,4 @@ ct-update: ct-clean ct
 ct-clean:
 	rm /usr/local/bin/ct
 
-.PHONY: clean cache-clean ct-update ct-clean
+.PHONY: clean cache-clean ct-clean
