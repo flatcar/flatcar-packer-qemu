@@ -4,12 +4,10 @@
         "flatcar_version": "1702.1.0",
         "iso_checksum": "",
         "iso_checksum_type": "none",
-        "install_headless": "false",
-        "install_target": "/dev/vda",
         "disk_size": "40000",
         "memory": "2048M",
         "boot_wait": "45s",
-        "ignition": "ignition.json"
+        "headless": "false"
     },
 
     "builders": [
@@ -27,6 +25,7 @@
             "boot_wait": "{{user `boot_wait` }}",
             "ssh_username": "core",
             "ssh_password": "packer",
+            "headless": "{{ user `headless` }}",
             "boot_command": [
                 "sudo passwd core<enter><wait>",
                 "packer<enter>",
@@ -42,7 +41,7 @@
     "provisioners": [
         {
             "type": "file",
-            "source": "{{ user `ignition` }}",
+            "source": "ignition.json",
             "destination": "/tmp/ignition.json"
         },
         {

@@ -27,6 +27,11 @@ $ make flatcar-linux
 $ make flatcar-linux RELEASE=stable VERSION=1632.3.0
 ```
 
+### Building in headless mode
+```
+$ make flatcar-linux HEADLESS=true
+```
+
 ### Other make targets
 
 Delete builds:
