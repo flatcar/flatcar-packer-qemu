@@ -1,6 +1,6 @@
 PACKER_CMD ?= packer
 RELEASE ?= alpha
-VERSION ?= 1702.1.0
+VERSION ?= current
 DIGEST_URL ?= https://$(RELEASE).release.flatcar-linux.net/amd64-usr/current/flatcar_production_iso_image.iso.DIGESTS
 CONFIG ?= flatcar-linux-config.yml
 DISK_SIZE ?= 40000

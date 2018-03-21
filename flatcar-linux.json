@@ -1,7 +1,7 @@
 {
     "variables": {
         "flatcar_channel": "alpha",
-        "flatcar_version": "1702.1.0",
+        "flatcar_version": "current",
         "iso_checksum": "",
         "iso_checksum_type": "none",
         "disk_size": "40000",
