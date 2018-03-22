@@ -57,7 +57,7 @@
             "type": "vagrant",
             "keep_input_artifact": true,
             "output": "builds/flatcar-{{user `flatcar_channel`}}-{{user `flatcar_version`}}-{{.Provider}}.box",
-            "vagrantfile_template": "Vagrantfile"
+            "vagrantfile_template": "Vagrantfile.template"
         }
     ]
 }

@@ -4,12 +4,9 @@
 ENV["TERM"] = "xterm-256color"
 ENV["LC_ALL"] = "en_US.UTF-8"
 
-Vagrant.require_version '>= 1.6.0'
+Vagrant.require_version '>= 2.0.0'
 
 Vagrant.configure('2') do |config|
-  # NOTE: ideally the boxes should be hosted with an own username "flatcar".
-  config.vm.box = "dongsupark/flatcar-alpha"
-
   config.ssh.username = 'core'
   config.ssh.insert_key = true
   config.vm.synced_folder '.', '/vagrant', disabled: true
