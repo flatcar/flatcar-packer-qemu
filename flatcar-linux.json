@@ -1,0 +1,63 @@
+{
+    "variables": {
+        "flatcar_channel": "alpha",
+        "flatcar_version": "current",
+        "iso_checksum": "",
+        "iso_checksum_type": "none",
+        "disk_size": "40000",
+        "memory": "2048M",
+        "boot_wait": "45s",
+        "headless": "false"
+    },
+
+    "builders": [
+        {
+            "type": "qemu",
+            "iso_url": "https://{{user `flatcar_channel` }}.release.flatcar-linux.net/amd64-usr/current/flatcar_production_iso_image.iso",
+            "iso_checksum": "{{ user `iso_checksum` }}",
+            "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+            "output_directory": "builds",
+            "shutdown_command": "sudo shutdown now",
+            "disk_size": "{{ user `disk_size` }}",
+            "format": "qcow2",
+            "accelerator": "kvm",
+            "vm_name": "flatcar-linux-{{user `flatcar_channel` }}.qcow2",
+            "boot_wait": "{{user `boot_wait` }}",
+            "ssh_username": "core",
+            "ssh_password": "packer",
+            "headless": "{{ user `headless` }}",
+            "boot_command": [
+                "sudo passwd core<enter><wait>",
+                "packer<enter>",
+                "packer<enter>",
+                "sudo systemctl start sshd.service<enter>"
+            ],
+            "qemuargs": [
+                [ "-m", "{{user `memory` }}" ]
+            ]
+        }
+    ],
+
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "ignition.json",
+            "destination": "/tmp/ignition.json"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "sudo flatcar-install -d /dev/vda -C {{ user `flatcar_channel` }} -i /tmp/ignition.json"
+            ]
+        }
+    ],
+
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "keep_input_artifact": true,
+            "output": "builds/flatcar-{{user `flatcar_channel`}}-{{user `flatcar_version`}}-{{.Provider}}.box",
+            "vagrantfile_template": "Vagrantfile.template"
+        }
+    ]
+}

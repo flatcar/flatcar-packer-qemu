@@ -1,0 +1,8 @@
+.vagrant
+builds
+packer_cache
+ignition.json
+-v.hwm
+-v.pwd
+-v.pwi
+Vagrantfile
