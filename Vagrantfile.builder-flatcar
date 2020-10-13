@@ -1,0 +1,25 @@
+ENV["TERM"] = "xterm-256color"
+ENV["LC_ALL"] = "en_US.UTF-8"
+
+Vagrant.require_version '>= 2.0.4'
+
+Vagrant.configure('2') do |config|
+  config.ssh.username = 'builder'
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = './vagrant-insecure-key'
+  config.vm.box = 'flatcar-' + ENV["FLATCAR_CHANNEL"] + '-' + ENV["FLATCAR_VERSION"]
+  config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh"
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.provider :virtualbox do |v|
+    v.check_guest_additions = false
+    v.functional_vboxsf = false
+    v.cpus = 2
+    v.memory = 3072
+  end
+  config.vm.provider :libvirt do |v|
+    v.cpus = 2
+    v.memory = 3072
+  end
+  config.vm.define 'vagrant-' + ENV["FLATCAR_CHANNEL"] do |c|
+  end
+end
