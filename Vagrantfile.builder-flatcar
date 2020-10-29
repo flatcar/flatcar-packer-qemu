@@ -6,7 +6,7 @@ Vagrant.require_version '>= 2.0.4'
 Vagrant.configure('2') do |config|
   config.ssh.username = 'builder'
   config.ssh.insert_key = false
-  config.ssh.private_key_path = './vagrant-insecure-key'
+  config.ssh.private_key_path = ENV["VAGRANT_SSH_PRIVATE_KEY"]
   config.vm.box = 'flatcar-' + ENV["FLATCAR_CHANNEL"] + '-' + ENV["FLATCAR_VERSION"]
   config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh"
   config.vm.synced_folder '.', '/vagrant', disabled: true
