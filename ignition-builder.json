@@ -1,0 +1,58 @@
+{
+  "ignition": {
+    "config": {},
+    "security": {
+      "tls": {}
+    },
+    "timeouts": {},
+    "version": "2.2.0"
+  },
+  "networkd": {
+    "units": [
+      {
+        "name": "yy-vmware.network",
+        "dropins": [
+          {
+            "name": "persistent-dhcp.conf",
+            "contents": "[DHCP]\nClientIdentifier=mac"
+          }
+        ]
+      }
+    ]
+  },
+  "passwd": {
+    "users": [
+      {
+        "groups": [
+          "wheel",
+          "sudo",
+          "docker"
+        ],
+        "name": "builder",
+        "passwordHash": "$1$iy0TfVpV$YkL12Rk42daUGy40rvREt1",
+        "sshAuthorizedKeys": ["BUILDERSSHAUTHKEY"]
+      }
+    ]
+  },
+  "storage": {
+    "files": [
+      {
+        "filesystem": "root",
+        "path": "/etc/coreos/update.conf",
+        "contents": {
+          "source": "data:,%0AREBOOT_STRATEGY%3D%22reboot%22",
+          "verification": {}
+        },
+        "mode": 420
+      }
+    ]
+  },
+  "systemd": {
+    "units": [
+      {
+        "enable": true,
+        "name": "docker.service"
+      }
+    ]
+  }
+}
