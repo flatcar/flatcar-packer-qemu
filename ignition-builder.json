@@ -34,24 +34,19 @@
       }
     ]
   },
-  "storage": {
-    "files": [
-      {
-        "filesystem": "root",
-        "path": "/etc/coreos/update.conf",
-        "contents": {
-          "source": "data:,%0AREBOOT_STRATEGY%3D%22reboot%22",
-          "verification": {}
-        },
-        "mode": 420
-      }
-    ]
-  },
   "systemd": {
     "units": [
       {
         "enable": true,
         "name": "docker.service"
+      },
+      {
+        "name": "update-engine.service",
+        "mask": true
+      },
+      {
+        "name": "locksmithd.service",
+        "mask": true
       }
     ]
   }
